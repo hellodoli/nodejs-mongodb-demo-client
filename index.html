@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo Client</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link href="lib/materialize.min.css" rel="stylesheet" />
+  <link href="css/index.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="customer-group section">
+      <div class="customer-group-inner">
+        <table class="customer-table responsive-table">
+          <thead>
+            <th>#</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Phone Number</th>
+            <th></th>
+          </thead>
+          <tbody id="holderCustomerData"></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- ./end .customer-group -->
+
+    <div class="edit-group section">
+      <button id="add" type="button" class="btn-floating btn-large waves-effect waves-light"
+        onclick="toggleForm(this)"><i class="material-icons left">add</i>Add Customer</button>
+    </div>
+    <!-- ./end .edit-group -->
+
+    <div id="holderForm" class="customer-form section hide">
+      <form onsubmit="onSubmitForm(event)">
+        <div class="input-field">
+          <input id="input_name" type="text" class="validate" />
+          <label for="input_name">Name</label>
+        </div>
+        <div class="input-field">
+          <input id="input_age" type="number" class="validate" min="0" max="200" value="20" />
+          <label for="input_age">Age</label>
+        </div>
+        <div class="input-field">
+          <input id="input_phone" type="text" class="validate" />
+          <label for="input_phone">Phone number</label>
+        </div>
+        <div class="input-field">
+          <button id="btnAction" type="button" class="btn waves-effect waves-light" onclick="addCustomer()">
+            Submit
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- ./end #holderForm -->
+  </div>
+
+  <script src="lib/materialize.min.js"></script>
+  <script src="js/apis.js"></script>
+  <script src="js/index.js"></script>
+</body>
+
+</html>
