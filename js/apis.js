@@ -1,38 +1,36 @@
 const baseURL = 'http://localhost:4000';
 
-async function getAPI (link, callbackSuccess, callbackError) {
-  const url = baseURL + link;
-  const response = await fetch(url, {
-    method: 'GET',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+function getAPI (link) {
+  return new Promise((resolve, reject) => {
+    fetch(`${baseURL}${link}`, {
+      method: 'GET',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(async res => {
+        const data = await res.json();
+        res.data = data;
+        return res;
+      })
+      .then(res => resolve(res))
+      .catch(err => reject(err))
   });
-
-  response.data = await response.json();
-  if (response.statusText === 'OK') {
-    callbackSuccess(response);
-  } else {
-    callbackError(response);
-  }
 }
 
-async function postAPI (link, method, data = {}, callbackSuccess, callbackError) {
-  const url = baseURL + link;
-  const response = await fetch(url, {
-    method,
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
+function postAPI (link, method, data = {}) {
+  return new Promise((resolve, reject) => {
+    fetch(`${baseURL}${link}`, {
+      method,
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(async res => {
+      const data = await res.json();
+      res.data = data;
+      return res;
+    })
+    .then(res => resolve(res))
+    .catch(err => reject(err))
   });
-  
-  response.data = await response.json();
-  if (response.statusText === 'OK') {
-    callbackSuccess(response);
-  } else {
-    callbackError(response);
-  }
 }
