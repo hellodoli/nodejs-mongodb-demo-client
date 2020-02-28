@@ -1,8 +1,4 @@
-class Customer {
-  constructor () {
-    this.customers = [];
-  }
-  
+class Customer { 
   async getAllCustomers (success) {
     try {
       const response = await getAPI('/customers');

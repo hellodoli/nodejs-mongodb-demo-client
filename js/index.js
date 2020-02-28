@@ -15,6 +15,10 @@ function onSubmitForm (e) {
 }
 
 // render function
+function renderPhoneNumber (phone) {
+  return (phone === null || phone === 'null') ? '' : phone;
+}
+
 function renderButtons (index, isEdit = false) {
   const buttonEditText = isEdit ? 'SAVE' : 'EDIT';
   const onClick = isEdit ? `updateCustomer(${index})` : `editCustomer(${index})`;
@@ -28,35 +32,25 @@ function renderButtons (index, isEdit = false) {
   return buttonHtml;
 }
 
-function renderCustomerData (data) {
+function renderCustomerData (data, customerId= null) {
   let html = '';
   var holder = document.getElementById('holderCustomerData');
   if (holder) {
     data.forEach((customer, index) => {
-      html += `<tr><td>${index + 1}</td><td>${customer.name}</td><td>${customer.age}</td><td>${customer.phoneNumber}</td><td>${renderButtons(index)}</td></tr>`;
-    });
-    holder.innerHTML = html;
-  }
-}
-
-function renderCustomerEditOn (customerId) {
-  let html = '';
-  var holder = document.getElementById('holderCustomerData');
-
-  if (holder) {
-    customerData.forEach((customer, index) => {
-      if (customer._id === customerId) {
+      if (customerId && customerId === customer._id) {
         html += `<tr>
           <td>${index + 1}</td>
           <td><input type="text" oninput="onChangeInputEdit(event, ${index}, 'name')" value="${customer.name}" /></td>
           <td><input type="number" oninput="onChangeInputEdit(event, ${index}, 'age')" min="0" max="200" value="${customer.age}" /></td>
-          <td><input type="text" oninput="onChangeInputEdit(event, ${index}, 'phone')" value="${customer.phoneNumber}" /></td>
+          <td><input type="text" oninput="onChangeInputEdit(event, ${index}, 'phone')" value="${renderPhoneNumber(customer.phoneNumber)}" /></td>
           <td>${renderButtons(index, true)}</td>
         </tr>`;
+        console.log(html);
       } else {
-        html += `<tr><td>${index + 1}</td><td>${customer.name}</td><td>${customer.age}</td><td>${customer.phoneNumber}</td><td>${renderButtons(index)}</td></tr>`;
+        html += `<tr><td>${index + 1}</td><td>${customer.name}</td><td>${customer.age}</td><td>${renderPhoneNumber(customer.phoneNumber)}</td><td>${renderButtons(index)}</td></tr>`;
       }
     });
+
     holder.innerHTML = html;
   }
 }
@@ -111,9 +105,11 @@ function addCustomer () {
     const { name, age, phone } = customer;
     // if (name === '' || age === '') return;
     const data = { name, age, phoneNumber: phone };
+    console.log(data);
     c.addCustomers(
       data, 
       (res) => { // success
+        console.log(res);
         customerData.push(res);
         renderCustomerData(customerData);
       },
@@ -165,7 +161,7 @@ function updateCustomer (index) {
 }
 
 function editCustomer (index) {
-  renderCustomerEditOn(customerData[index]._id);
+  renderCustomerData(customerData, customerData[index]._id);
 }
 
 window.onload = function () {
